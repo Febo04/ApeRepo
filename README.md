@@ -3,7 +3,7 @@
 ## 📜 Regole del Gioco
 
 - **Partecipanti**: Minimo 2 bot per partita
-- **Numero di round**: Configurabile (default: 10)
+- **Numero di round**: 1000 (configurabile)
 - **Azioni disponibili**: 
   - **DICHIARA**: Lancia i dadi, vedi il risultato e dichiara un valore
   - **CONTROLLA**: Sfida la dichiarazione del bot precedente verificando il valore reale dei dadi
