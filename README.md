@@ -11,7 +11,7 @@
   - Penalità per dichiarazioni errate
   - Penalità per controlli sbagliati
   - Il bot con meno penalità vince il round!
-  - **Regole Speciali**
+- **Regole Speciali**
   - -Se si fa un giro completo di declare 21 tutti i giocatori perdono.
 - **Vincitore**: Il bot con il **punteggio totale più basso** dopo tutti i round è il campione! 🏆
 
