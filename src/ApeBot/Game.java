@@ -138,6 +138,20 @@ public class Game {
 				lastDeclaredTurn.actualValue = actual;
 
 				publicLog.add(new PublicAction(current.getName(), choice, declared, actual, decision));
+				
+				// Check if all players declared 21 in a full cycle
+				if (declared == 21 && allPlayersDeclareSame21()) {
+					// All players declared 21 - everyone loses a point
+					for (Bot player : players) {
+						penaltyPoints.put(player.getName(), penaltyPoints.get(player.getName()) + 1);
+					}
+					publicLog.add(new PublicAction("SYSTEM", ActionType.CHECK, 0, 0, Decision.CHECK));
+					roundActive = false;
+					// Move to next player who will start new round
+					advanceTurn();
+					break;
+				}
+				
 				advanceTurn();
 
 			} else {
@@ -167,6 +181,21 @@ public class Game {
 		if (rank > all.length)
 			rank = all.length;
 		return all[rank - 1];
+	}
+
+	private boolean allPlayersDeclareSame21() {
+		// Count consecutive DECLARE actions with value 21 from the end of the log
+		int count = 0;
+		for (int i = publicLog.size() - 1; i >= 0; i--) {
+			PublicAction action = publicLog.get(i);
+			if (action.Type() == ActionType.DECLARE && action.DeclaredValue() == 21) {
+				count++;
+			} else {
+				break; // Stop when we hit a non-21 declare or non-declare action
+			}
+		}
+		// Return true if all players declared 21 in this cycle
+		return count == players.size();
 	}
 
 	public Map<String, Integer> playMultipleRounds(int rounds) {
