@@ -92,19 +92,19 @@ public class Game {
 			} else if (choice == ActionType.DECLARE) {
 				int actual=0;
 				Decision decision=null;
-				if (lastDeclaredTurn == null&&!current.wantsReroll()) {
-					loser=current.getName();
-					penaltyPoints.put(loser, penaltyPoints.get(loser) + 1);
-					roundActive = false;
-					currentPlayerIndex = findPlayerIndexByName(loser);
-					break;	
+				if (lastDeclaredTurn == null) {
+					actual=DiceUtils.roll(rnd);	
 				}
-				if(!current.wantsReroll()) {
-					actual=lastDeclaredTurn.declaredValue;
+				
+				// First, get the declared value to check if it's 21
+				declared = current.declared();
+				boolean forceReroll = (declared == 21);
+				
+				if(!current.wantsReroll() && !forceReroll) {
+					actual= (lastDeclaredTurn == null) ? DiceUtils.roll(rnd):lastDeclaredTurn.actualValue;
 					decision=Decision.DECLARE;
-					declared=current.declared();
 				}
-				else if (current.wantsReroll()) {
+				else if (current.wantsReroll() || forceReroll) {
 					actual = DiceUtils.roll(rnd);
 					if(!current.wantsSeeDice()) {
 						decision=Decision.ROLL_DECLARE;
